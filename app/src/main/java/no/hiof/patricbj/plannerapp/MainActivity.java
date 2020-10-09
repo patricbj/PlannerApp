@@ -14,6 +14,7 @@ import com.google.android.material.tabs.TabLayout;
 
 public class MainActivity extends AppCompatActivity {
 
+    private TabLayout tabLayout;
     private ViewPager viewPager;
     private TabItem tabCalendar, tabOverview;
     CalendarView calendarView = (CalendarView) findViewById(R.id.calendarView);
@@ -25,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabLayout);
+        tabLayout = (TabLayout) findViewById(R.id.tabLayout);
         tabCalendar = (TabItem) findViewById(R.id.tabCalendar);
         tabOverview = (TabItem) findViewById(R.id.tabOverview);
         viewPager = findViewById(R.id.viewpager);
