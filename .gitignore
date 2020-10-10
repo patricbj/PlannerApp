@@ -1,2 +1,8 @@
 # Project exclude paths
-/.gradle/
+/.gradle
+/.idea/vcs.xml
+/app/build
+/build
+/captures
+/projectFilesBackup
+local.properties
