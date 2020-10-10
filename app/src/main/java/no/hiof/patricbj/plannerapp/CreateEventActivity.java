@@ -90,9 +90,8 @@ public class CreateEventActivity extends AppCompatActivity {
                                 fromMinute = minute;
 
                                 String time = fromHour + ":" + fromMinute;
-                                @SuppressLint("SimpleDateFormat")
                                 SimpleDateFormat f24Hours = new SimpleDateFormat(
-                                        "HH:mm"
+                                        "HH:mm", Locale.ENGLISH
                                 );
                                 try {
                                     Date date = f24Hours.parse(time);
@@ -126,7 +125,7 @@ public class CreateEventActivity extends AppCompatActivity {
 
                                 String time = toHour + ":" + toMinute;
                                 SimpleDateFormat f24Hours = new SimpleDateFormat(
-                                        "HH:mm"
+                                        "HH:mm", Locale.ENGLISH
                                 );
                                 try {
                                     Date date = f24Hours.parse(time);

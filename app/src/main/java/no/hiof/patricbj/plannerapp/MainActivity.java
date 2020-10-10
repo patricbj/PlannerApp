@@ -17,7 +17,6 @@ public class MainActivity extends AppCompatActivity {
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private TabItem tabCalendar, tabOverview;
-    CalendarView calendarView = (CalendarView) findViewById(R.id.calendarView);
 
     public PageAdapter pageradapter;
 
