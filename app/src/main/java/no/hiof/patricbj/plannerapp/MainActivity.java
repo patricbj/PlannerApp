@@ -12,11 +12,15 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
 
+import java.util.Calendar;
+
 public class MainActivity extends AppCompatActivity {
 
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private TabItem tabCalendar, tabOverview;
+    private CalendarView calendarView;
+    private Calendar calendar;
 
     public PageAdapter pageradapter;
 
@@ -29,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
         tabCalendar = (TabItem) findViewById(R.id.tabCalendar);
         tabOverview = (TabItem) findViewById(R.id.tabOverview);
         viewPager = findViewById(R.id.viewpager);
+        calendarView = (CalendarView) findViewById(R.id.calendarView);
 
         pageradapter = new PageAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
         viewPager.setAdapter(pageradapter);

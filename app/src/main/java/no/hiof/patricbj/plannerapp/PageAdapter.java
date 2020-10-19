@@ -18,9 +18,9 @@ public class PageAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                return new Calendar();
+                return new CalendarFragment();
             case 1:
-                return new Overview();
+                return new OverviewFragment();
             default:
                 return null;
         }

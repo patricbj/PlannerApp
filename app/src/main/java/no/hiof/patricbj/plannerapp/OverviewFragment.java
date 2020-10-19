@@ -8,11 +8,11 @@ import android.view.ViewGroup;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link Overview#newInstance} factory method to
+ * Use the {@link OverviewFragment#newInstance} factory method to
  * create an instance of this fragment.
  *
  */
-public class Overview extends Fragment {
+public class OverviewFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -32,8 +32,8 @@ public class Overview extends Fragment {
      * @return A new instance of fragment Overview.
      */
     // TODO: Rename and change types and number of parameters
-    public static Overview newInstance(String param1, String param2) {
-        Overview fragment = new Overview();
+    public static OverviewFragment newInstance(String param1, String param2) {
+        OverviewFragment fragment = new OverviewFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -41,7 +41,7 @@ public class Overview extends Fragment {
         return fragment;
     }
 
-    public Overview() {
+    public OverviewFragment() {
         // Required empty public constructor
     }
 

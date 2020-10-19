@@ -7,14 +7,13 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CalendarView;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class Calendar extends Fragment {
+public class CalendarFragment extends Fragment {
 
-    public Calendar() {
+    public CalendarFragment() {
         // Required empty public constructor
     }
 
