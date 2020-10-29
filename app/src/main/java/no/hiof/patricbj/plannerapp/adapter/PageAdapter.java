@@ -1,9 +1,12 @@
-package no.hiof.patricbj.plannerapp;
+package no.hiof.patricbj.plannerapp.adapter;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
+
+import no.hiof.patricbj.plannerapp.CalendarFragment;
+import no.hiof.patricbj.plannerapp.OverviewFragment;
 
 public class PageAdapter extends FragmentPagerAdapter {
 

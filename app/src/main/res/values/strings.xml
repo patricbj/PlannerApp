@@ -2,9 +2,6 @@
     <string name="app_name">PlannerApp</string>
     <string name="tabOverview">Overview</string>
     <string name="tabCalendar">Calendar</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_calendar_fragment">Hello calendar fragment</string>
-    <string name="hello_overview_fragment">Hello overview fragment</string>
     <string name="title">Title</string>
     <string name="note">Note</string>
     <string name="start_date">Start date</string>
@@ -13,6 +10,9 @@
     <string name="select_time">Select Time</string>
     <string name="end_date">End date</string>
     <string name="end_time">End time</string>
-    <string name="create_event">Create Event</string>
     <string name="overview_title">Events and Todos</string>
+    <string name="create_event">Create Event</string>
+    <string name="events_for_selected_date">Events for Selected Date</string>
+    <string name="event_start">Event start:</string>
+    <string name="event_end">Event end:</string>
 </resources>

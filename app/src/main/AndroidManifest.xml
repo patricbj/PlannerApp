@@ -23,8 +23,9 @@
         </activity>
         <activity
             android:name=".CreateEventActivity"
+            android:parentActivityName=".MainActivity"
             android:label="PlannerApp"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme">
         </activity>
     </application>
 </manifest>
