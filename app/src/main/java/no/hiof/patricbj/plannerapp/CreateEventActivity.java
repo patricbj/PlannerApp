@@ -212,6 +212,7 @@ public class CreateEventActivity extends AppCompatActivity {
                 if (EasyPermissions.hasPermissions(view.getContext(), Manifest.permission.WRITE_CALENDAR)) {
                     Toast.makeText(CreateEventActivity.this, "Permission already granted", Toast.LENGTH_SHORT).show();
                 } else {
+                    Toast.makeText(CreateEventActivity.this, "Asking for permission", Toast.LENGTH_SHORT).show();
                     EasyPermissions.requestPermissions(CreateEventActivity.this, Manifest.permission.WRITE_CALENDAR, WRITE_CALENDAR_PERMISSION_CODE);
                 }
 
@@ -267,8 +268,10 @@ public class CreateEventActivity extends AppCompatActivity {
                     Toast.makeText(view.getContext(), "Created event with ID " + eventID, Toast.LENGTH_LONG).show();
                 }
                 */
+                /*
                 finish();
                 overridePendingTransition(R.anim.hold, R.anim.exit_bottom);
+                */
             }
         });
     }

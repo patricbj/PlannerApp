@@ -1,21 +1,29 @@
 package no.hiof.patricbj.plannerapp;
 
+import android.Manifest;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CalendarView;
+import android.widget.Toast;
 
 import java.util.Calendar;
 
+import no.hiof.patricbj.plannerapp.adapter.CalendarEventRecyclerAdapter;
+import no.hiof.patricbj.plannerapp.model.Event;
 import pub.devrel.easypermissions.EasyPermissions;
 
 public class CalendarFragment extends Fragment {
+
+    private static final int READ_CALENDAR_PERMISSION_CODE = 101;
 
     public CalendarFragment() {
         // Required empty public constructor
@@ -55,7 +63,12 @@ public class CalendarFragment extends Fragment {
             Toast.makeText(view.getContext(), "Permission already granted", Toast.LENGTH_SHORT).show();
             calendarEventRecyclerView.setAdapter(new CalendarEventRecyclerAdapter(view.getContext(), Event.getEvents(view.getContext(), this.getActivity())));
         } else {
-            EasyPermissions.requestPermissions(CalendarFragment.this, Manifest.permission.READ_CALENDAR, READ_CALENDAR_PERMISSION_CODE);
+            if (CalendarFragment.this.getActivity() == null) {
+                Toast.makeText(view.getContext(), "Calendar: Activity is null", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(view.getContext(), "Asking for permission", Toast.LENGTH_SHORT).show();
+                EasyPermissions.requestPermissions(CalendarFragment.this.getActivity(), Manifest.permission.READ_CALENDAR, READ_CALENDAR_PERMISSION_CODE);
+            }
         }
         */
     }

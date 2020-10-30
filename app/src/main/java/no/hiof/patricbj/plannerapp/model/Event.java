@@ -1,22 +1,14 @@
 package no.hiof.patricbj.plannerapp.model;
 
-import android.Manifest;
 import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
-import android.net.Uri;
 import android.provider.CalendarContract;
 import android.widget.Toast;
 
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
-
-import no.hiof.patricbj.plannerapp.CalendarFragment;
-import no.hiof.patricbj.plannerapp.MainActivity;
-import pub.devrel.easypermissions.EasyPermissions;
 
 public class Event {
 
