@@ -71,28 +71,29 @@ public class Event {
 
         ContentResolver contentResolver = context.getContentResolver();
 
-        Cursor cursor = contentResolver.query(CalendarContract.Instances.CONTENT_URI, new String[]{"title", "description", "dtstart", "dtend"}, null, null, null);
-        assert cursor != null;
-        cursor.moveToFirst();
-        int[] CalIDs = new int[cursor.getCount()];
+        Cursor cursor = contentResolver.query(CalendarContract.Events.CONTENT_URI, new String[]{"title", "description", "dtstart", "dtend"}, null, null, null);
+        if (cursor != null) {
+            int[] CalIDs = new int[cursor.getCount()];
 
-        for (int i = 0; i < CalIDs.length; i++) {
-            CalIDs[i] = cursor.getInt(0);
-            Calendar startDate = Calendar.getInstance();
-            startDate.setTimeInMillis(cursor.getLong(3));
-            Calendar endDate = Calendar.getInstance();
-            endDate.setTimeInMillis(cursor.getLong(4));
-            Event event = new Event(
-                    cursor.getString(1),
-                    cursor.getString(2),
-                    startDate,
-                    endDate);
-            eventList.add(event);
-            Toast.makeText(context, "Event: " + CalIDs[i] + " | Title: " + event.getTitle(), Toast.LENGTH_SHORT).show();
-            cursor.moveToNext();
+            for (int i = 1; i < CalIDs.length; i++) {
+                Calendar startDate = Calendar.getInstance();
+                startDate.setTimeInMillis(cursor.getLong(2));
+                Calendar endDate = Calendar.getInstance();
+                endDate.setTimeInMillis(cursor.getLong(3));
+
+                Event event = new Event(
+                        cursor.getString(0),
+                        cursor.getString(1),
+                        startDate,
+                        endDate);
+
+                eventList.add(event);
+                Toast.makeText(context, "Event: " + CalIDs[i] + " | Title: " + event.getTitle(), Toast.LENGTH_SHORT).show();
+                cursor.moveToNext();
+            }
+            cursor.close();
+
         }
-        cursor.close();
-
         return eventList;
         /*
         Calendar startDate = Calendar.getInstance();

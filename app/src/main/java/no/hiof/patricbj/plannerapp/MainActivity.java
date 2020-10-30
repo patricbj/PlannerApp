@@ -1,33 +1,20 @@
 package no.hiof.patricbj.plannerapp;
 
-import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CalendarView;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
 
-import java.util.Calendar;
-
-import no.hiof.patricbj.plannerapp.adapter.OverviewEventRecyclerAdapter;
 import no.hiof.patricbj.plannerapp.adapter.PageAdapter;
-import no.hiof.patricbj.plannerapp.model.Event;
-import pub.devrel.easypermissions.EasyPermissions;
 
 public class MainActivity extends AppCompatActivity {
-
-    private static final int READ_CALENDAR_PERMISSION_CODE = 101;
 
     private TabLayout tabLayout;
     private ViewPager viewPager;
@@ -49,7 +36,6 @@ public class MainActivity extends AppCompatActivity {
 
         pageradapter = new PageAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
         viewPager.setAdapter(pageradapter);
-
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
