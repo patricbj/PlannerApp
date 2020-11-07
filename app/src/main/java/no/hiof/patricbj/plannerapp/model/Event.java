@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
 public class Event {
 
@@ -56,18 +57,35 @@ public class Event {
         this.endDate = endDate;
     }
 
-    public static ArrayList<Event> getEvents(Context context, Activity activity ) {
+    public static ArrayList<Event> getEventsFromToday(Context context) {
         // TODO: Need to find a way to get Events from a Calendar when a date is selected in CalendarView
 
         ArrayList<Event> eventList = new ArrayList<>();
 
         ContentResolver contentResolver = context.getContentResolver();
 
-        Cursor cursor = contentResolver.query(CalendarContract.Events.CONTENT_URI, new String[]{"title", "description", "dtstart", "dtend"}, null, null, null);
-        if (cursor != null) {
-            int[] CalIDs = new int[cursor.getCount()];
+        Calendar today = Calendar.getInstance();
 
-            for (int i = 1; i < CalIDs.length; i++) {
+        String[] projection = {
+                CalendarContract.Events.TITLE,
+                CalendarContract.Events.DESCRIPTION,
+                CalendarContract.Events.DTSTART,
+                CalendarContract.Events.DTEND
+        };
+
+        String DTSTART = CalendarContract.Events.DTSTART;
+
+        Cursor cursor = contentResolver.query(
+                CalendarContract.Events.CONTENT_URI,
+                projection,
+                DTSTART + " > " + today.getTimeInMillis(),
+                null,
+                DTSTART + " ASC");
+
+        if (cursor != null) {
+            cursor.moveToFirst();
+
+            for (int i = 0; i < cursor.getCount(); i++) {
                 Calendar startDate = Calendar.getInstance();
                 startDate.setTimeInMillis(cursor.getLong(2));
                 Calendar endDate = Calendar.getInstance();
@@ -80,30 +98,59 @@ public class Event {
                         endDate);
 
                 eventList.add(event);
-                Toast.makeText(context, "Event: " + CalIDs[i] + " | Title: " + event.getTitle(), Toast.LENGTH_SHORT).show();
                 cursor.moveToNext();
             }
             cursor.close();
 
         }
         return eventList;
-        /*
-        Calendar startDate = Calendar.getInstance();
-        startDate.set(2020, 10 - 1, 28, 21, 0);
-
-        Calendar endDate = Calendar.getInstance();
-        endDate.set(2020, 10 - 1, 28, 22, 0);
-
-        Event event1 = new Event("Lage Lasagne","spise etterpå", startDate, endDate);
-
-        eventList.add(event1);
-        */
     }
 
-    public static ArrayList<Event> getEventsOnDate() {
+    public static ArrayList<Event> getEventsOnDate(Context context, Calendar selectedDate) {
 
         ArrayList<Event> eventList = new ArrayList<>();
 
+        ContentResolver contentResolver = context.getContentResolver();
+
+        String[] projection = {
+                CalendarContract.Events.TITLE,
+                CalendarContract.Events.DESCRIPTION,
+                CalendarContract.Events.DTSTART,
+                CalendarContract.Events.DTEND
+        };
+
+        String DTSTART = CalendarContract.Events.DTSTART;
+
+        Cursor cursor = contentResolver.query(
+                CalendarContract.Events.CONTENT_URI,
+                projection,
+                DTSTART + " > " + selectedDate.getTimeInMillis() + " AND " +
+                        DTSTART + " <= " + (selectedDate.getTimeInMillis() + 86399999 /* 23 hours 59 min 59 sec 999 ms */),
+                null,
+                CalendarContract.Events.DTSTART + " ASC");
+
+        if (cursor != null) {
+
+            cursor.moveToFirst();
+
+            for (int i = 0; i < cursor.getCount(); i++) {
+                Calendar startDate = Calendar.getInstance();
+                startDate.setTimeInMillis(cursor.getLong(2));
+                Calendar endDate = Calendar.getInstance();
+                endDate.setTimeInMillis(cursor.getLong(3));
+
+                Event event = new Event(
+                        cursor.getString(0),
+                        cursor.getString(1),
+                        startDate,
+                        endDate);
+
+                eventList.add(event);
+                cursor.moveToNext();
+            }
+            cursor.close();
+
+        }
         return eventList;
     }
 }

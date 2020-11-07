@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import no.hiof.patricbj.plannerapp.adapter.OverviewEventRecyclerAdapter;
 import no.hiof.patricbj.plannerapp.model.Event;
+import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 
 /**
@@ -42,27 +43,30 @@ public class OverviewFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_overview, container, false);
     }
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-        // TODO: Find out what is stopping the EasyPermission from showing a Permission Dialog asking for Permission
-        RecyclerView overviewEventRecyclerView = view.findViewById(R.id.overviewEventRecyclerView);
+    @AfterPermissionGranted(READ_CALENDAR_PERMISSION_CODE)
+    private void setEventView(View parentView) {
+        RecyclerView overviewEventRecyclerView = parentView.findViewById(R.id.overviewEventRecyclerView);
         overviewEventRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        Log.d("getApplicationContext: ", String.valueOf(getActivity()));
         if (getContext() != null ) {
             if (EasyPermissions.hasPermissions(getContext(), Manifest.permission.READ_CALENDAR)) {
                 Toast.makeText(getContext(), "Permission already granted", Toast.LENGTH_SHORT).show();
-                overviewEventRecyclerView.setAdapter(new OverviewEventRecyclerAdapter(view.getContext(), Event.getEvents(view.getContext(), getActivity())));
+                overviewEventRecyclerView.setAdapter(new OverviewEventRecyclerAdapter(parentView.getContext(), Event.getEventsFromToday(parentView.getContext())));
             } else {
                 if (getActivity() == null) {
                     Toast.makeText(getContext(), "Something went wrong", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(getContext(), "Asking for permission", Toast.LENGTH_SHORT).show();
-                    EasyPermissions.requestPermissions(getActivity(), Manifest.permission.READ_CALENDAR, READ_CALENDAR_PERMISSION_CODE);
+                    EasyPermissions.requestPermissions(getActivity(), "We need permission", READ_CALENDAR_PERMISSION_CODE, Manifest.permission.READ_CALENDAR);
                 }
             }
         }
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        setEventView(view);
     }
 
     @Override

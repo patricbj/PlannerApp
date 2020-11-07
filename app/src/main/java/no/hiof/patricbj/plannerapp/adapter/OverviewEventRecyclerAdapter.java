@@ -42,11 +42,7 @@ public class OverviewEventRecyclerAdapter extends RecyclerView.Adapter<OverviewE
     public void onBindViewHolder(@NonNull OverviewEventViewHolder viewHolder, int position) {
         Event eventToDisplay = eventList.get(position);
 
-        try {
-            viewHolder.setEvent(eventToDisplay);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        viewHolder.setEvent(eventToDisplay);
     }
 
     @Override
@@ -55,21 +51,30 @@ public class OverviewEventRecyclerAdapter extends RecyclerView.Adapter<OverviewE
     }
 
     public static class OverviewEventViewHolder extends RecyclerView.ViewHolder {
-        private TextView titleView, startDateView;
+        private TextView titleView, descView, startDateView, endDateView;
 
         public OverviewEventViewHolder(@NonNull View itemView) {
             super(itemView);
 
             titleView = itemView.findViewById(R.id.titleView);
+            descView = itemView.findViewById(R.id.descView);
             startDateView = itemView.findViewById(R.id.startDateView);
+            endDateView = itemView.findViewById(R.id.endDateView);
         }
 
-        public void setEvent(Event eventToDisplay) throws ParseException {
+        public void setEvent(Event eventToDisplay) {
+            DateFormat dateTimeFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.ENGLISH);
+
+            Calendar start = eventToDisplay.getStartDate();
+            Date startDate = start.getTime();
+
+            Calendar end = eventToDisplay.getEndDate();
+            Date endDate = end.getTime();
+
             titleView.setText(eventToDisplay.getTitle());
-            DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.ENGLISH);
-            Calendar cal = eventToDisplay.getStartDate();
-            Date startDate = cal.getTime();
-            startDateView.setText(dateFormat.format(startDate));
+            descView.setText(eventToDisplay.getNote());
+            startDateView.setText(dateTimeFormat.format(startDate));
+            endDateView.setText(dateTimeFormat.format(endDate));
         }
     }
 }

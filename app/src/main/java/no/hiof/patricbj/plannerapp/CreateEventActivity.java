@@ -212,8 +212,7 @@ public class CreateEventActivity extends AppCompatActivity {
                 if (EasyPermissions.hasPermissions(view.getContext(), Manifest.permission.WRITE_CALENDAR)) {
                     Toast.makeText(CreateEventActivity.this, "Permission already granted", Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(CreateEventActivity.this, "Asking for permission", Toast.LENGTH_SHORT).show();
-                    EasyPermissions.requestPermissions(CreateEventActivity.this, Manifest.permission.WRITE_CALENDAR, WRITE_CALENDAR_PERMISSION_CODE);
+                    EasyPermissions.requestPermissions(CreateEventActivity.this, Manifest.permission.WRITE_CALENDAR, WRITE_CALENDAR_PERMISSION_CODE, Manifest.permission.WRITE_CALENDAR);
                 }
 
                 long calID = 1;
@@ -224,7 +223,7 @@ public class CreateEventActivity extends AppCompatActivity {
 
                 if ((fieldStartDate.getText() != null) && (fieldStartTime.getText() != null)) {
                     try {
-                        beginTime.setTime(dateFormatDateTime.parse(String.valueOf(fieldStartDate.getText() + "" + fieldStartTime.getText())));
+                        beginTime.setTime(dateFormatDateTime.parse(String.valueOf(fieldStartDate.getText() + " " + fieldStartTime.getText())));
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
@@ -233,7 +232,7 @@ public class CreateEventActivity extends AppCompatActivity {
                 }
 //
                 try {
-                    endTime.setTime(dateFormatDateTime.parse(String.valueOf(fieldStartDate.getText() + "" + fieldStartTime.getText())));
+                    endTime.setTime(dateFormatDateTime.parse(String.valueOf(fieldStartDate.getText() + " " + fieldStartTime.getText())));
                 } catch (ParseException ignored) {
 
                 }
@@ -253,7 +252,7 @@ public class CreateEventActivity extends AppCompatActivity {
 //                intent.putExtra("endTime", endMillis);
 //                intent.putExtra("title", "A test event from PlannerApp");
 //                startActivity(intent);
-                /*
+
                 ContentResolver cr = getContentResolver();
                 ContentValues cv = new ContentValues();
                 cv.put(CalendarContract.Events.TITLE, String.valueOf(fieldTitle.getText()));
@@ -264,14 +263,16 @@ public class CreateEventActivity extends AppCompatActivity {
                 cv.put(CalendarContract.Events.EVENT_TIMEZONE, Calendar.getInstance().getTimeZone().getID());
                 Uri uri = cr.insert(CalendarContract.Events.CONTENT_URI, cv);
                 if (uri != null) {
-                    long eventID = Long.parseLong(uri.getLastPathSegment());
-                    Toast.makeText(view.getContext(), "Created event with ID " + eventID, Toast.LENGTH_LONG).show();
+                    if (uri.getLastPathSegment() != null) {
+                        long eventID = Long.parseLong(uri.getLastPathSegment());
+                        Toast.makeText(view.getContext(), "Created event with ID " + eventID, Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(view.getContext(), "Something wrong happened :(", Toast.LENGTH_LONG).show();
+                    }
                 }
-                */
-                /*
+
                 finish();
                 overridePendingTransition(R.anim.hold, R.anim.exit_bottom);
-                */
             }
         });
     }

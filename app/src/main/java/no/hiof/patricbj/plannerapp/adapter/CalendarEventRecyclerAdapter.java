@@ -10,7 +10,12 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import no.hiof.patricbj.plannerapp.R;
 import no.hiof.patricbj.plannerapp.model.Event;
@@ -46,17 +51,21 @@ public class CalendarEventRecyclerAdapter extends RecyclerView.Adapter<CalendarE
     }
 
     public static class CalendarEventViewHolder extends RecyclerView.ViewHolder {
-        private TextView titleTextView, timeTextView;
+        private TextView titleTextView, descTextView, startTextView, endTextView;
 
         public CalendarEventViewHolder(@NonNull View itemView) {
             super(itemView);
 
             titleTextView = itemView.findViewById(R.id.titleView);
-            timeTextView = itemView.findViewById(R.id.timeTextView);
+            startTextView = itemView.findViewById(R.id.timeTextView);
         }
 
         public void setEvent(Event eventToDisplay) {
+            DateFormat dateFormatDateTime = new SimpleDateFormat("HH:mm", Locale.ENGLISH);
+            Date startDate = eventToDisplay.getStartDate().getTime();
+
             titleTextView.setText(eventToDisplay.getTitle());
+            startTextView.setText(dateFormatDateTime.format(startDate));
         }
     }
 }
