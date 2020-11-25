@@ -10,18 +10,17 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <CalendarView
+        <com.applandeo.materialcalendarview.CalendarView
             android:id="@+id/calendarView"
-            style="@android:style/Widget.DeviceDefault.CalendarView"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:firstDayOfWeek="2"
-            android:focusedMonthDateColor="@color/colorAccent"
-            android:showWeekNumber="true"
-            android:weekDayTextAppearance="@style/TextAppearance.AppCompat.Body2"
+            app:datePicker="false"
+            app:eventsEnabled="false"
+            app:headerColor="@color/colorPrimary"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:todayLabelColor="@color/colorAccent" />
 
         <TextView
             android:id="@+id/eventListHeader"

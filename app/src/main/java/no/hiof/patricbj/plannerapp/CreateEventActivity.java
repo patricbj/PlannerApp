@@ -78,7 +78,6 @@ public class CreateEventActivity extends AppCompatActivity {
         fieldEndTime = (EditText) findViewById(R.id.fieldEndTime);
 
 
-
         btnStartDate.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             @Override
@@ -137,7 +136,8 @@ public class CreateEventActivity extends AppCompatActivity {
                 );
                 try {
                     timePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                } catch (NullPointerException ignored) {}
+                } catch (NullPointerException ignored) {
+                }
                 timePickerDialog.setTitle("Set start time");
                 timePickerDialog.updateTime(fromHour, fromMinute);
                 timePickerDialog.show();
@@ -211,33 +211,28 @@ public class CreateEventActivity extends AppCompatActivity {
 
                 if (EasyPermissions.hasPermissions(view.getContext(), Manifest.permission.WRITE_CALENDAR)) {
                     Toast.makeText(CreateEventActivity.this, "Permission already granted", Toast.LENGTH_SHORT).show();
-                } else {
-                    EasyPermissions.requestPermissions(CreateEventActivity.this, Manifest.permission.WRITE_CALENDAR, WRITE_CALENDAR_PERMISSION_CODE, Manifest.permission.WRITE_CALENDAR);
-                }
 
-                long calID = 1;
+                    long calID = 1;
 
-                DateFormat dateFormatDateTime = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.ENGLISH);
-                Calendar beginTime = Calendar.getInstance();
-                Calendar endTime = Calendar.getInstance();
+                    DateFormat dateFormatDateTime = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.ENGLISH);
+                    Calendar beginTime = Calendar.getInstance();
+                    Calendar endTime = Calendar.getInstance();
 
-                if ((fieldStartDate.getText() != null) && (fieldStartTime.getText() != null)) {
-                    try {
-                        beginTime.setTime(dateFormatDateTime.parse(String.valueOf(fieldStartDate.getText() + " " + fieldStartTime.getText())));
-                    } catch (ParseException e) {
-                        e.printStackTrace();
+                    if ((fieldStartDate.getText() != null) && (fieldStartTime.getText() != null)) {
+                        try {
+                            beginTime.setTime(dateFormatDateTime.parse(String.valueOf(fieldStartDate.getText() + " " + fieldStartTime.getText())));
+                        } catch (ParseException ignored) {
+                        }
+                    } else {
+                        Toast.makeText(view.getContext(), "Start date or time is empty", Toast.LENGTH_SHORT).show();
                     }
-                } else {
-                    Toast.makeText(view.getContext(), "Start date or time is empty", Toast.LENGTH_SHORT).show();
-                }
 //
-                try {
-                    endTime.setTime(dateFormatDateTime.parse(String.valueOf(fieldStartDate.getText() + " " + fieldStartTime.getText())));
-                } catch (ParseException ignored) {
+                    try {
+                        endTime.setTime(dateFormatDateTime.parse(String.valueOf(fieldStartDate.getText() + " " + fieldStartTime.getText())));
+                    } catch (ParseException ignored) {
+                    }
 
-                }
-
-                // Adding events using intent
+                    // Adding events using intent
 //                Calendar endTime = Calendar.getInstance();
 //                endTime.set(2020, 10, 19, 22, 0);
 //                endMillis = endTime.getTimeInMillis();
@@ -253,31 +248,32 @@ public class CreateEventActivity extends AppCompatActivity {
 //                intent.putExtra("title", "A test event from PlannerApp");
 //                startActivity(intent);
 
-                ContentResolver cr = getContentResolver();
-                ContentValues cv = new ContentValues();
-                cv.put(CalendarContract.Events.TITLE, String.valueOf(fieldTitle.getText()));
-                cv.put(CalendarContract.Events.DESCRIPTION, String.valueOf(fieldNote.getText()));
-                cv.put(CalendarContract.Events.CALENDAR_ID, calID);
-                cv.put(CalendarContract.Events.DTSTART, beginTime.getTimeInMillis());
-                cv.put(CalendarContract.Events.DTEND, endTime.getTimeInMillis());
-                cv.put(CalendarContract.Events.EVENT_TIMEZONE, Calendar.getInstance().getTimeZone().getID());
-                Uri uri = cr.insert(CalendarContract.Events.CONTENT_URI, cv);
-                if (uri != null) {
-                    if (uri.getLastPathSegment() != null) {
-                        long eventID = Long.parseLong(uri.getLastPathSegment());
-                        Toast.makeText(view.getContext(), "Created event with ID " + eventID, Toast.LENGTH_LONG).show();
-                    } else {
-                        Toast.makeText(view.getContext(), "Something wrong happened :(", Toast.LENGTH_LONG).show();
+                    ContentResolver cr = getContentResolver();
+                    ContentValues cv = new ContentValues();
+                    cv.put(CalendarContract.Events.TITLE, String.valueOf(fieldTitle.getText()));
+                    cv.put(CalendarContract.Events.DESCRIPTION, String.valueOf(fieldNote.getText()));
+                    cv.put(CalendarContract.Events.CALENDAR_ID, calID);
+                    cv.put(CalendarContract.Events.DTSTART, beginTime.getTimeInMillis());
+                    cv.put(CalendarContract.Events.DTEND, endTime.getTimeInMillis());
+                    cv.put(CalendarContract.Events.EVENT_TIMEZONE, Calendar.getInstance().getTimeZone().getID());
+                    Uri uri = cr.insert(CalendarContract.Events.CONTENT_URI, cv);
+                    if (uri != null) {
+                        if (uri.getLastPathSegment() != null) {
+                            long eventID = Long.parseLong(uri.getLastPathSegment());
+                            Toast.makeText(view.getContext(), "Created event with ID " + eventID, Toast.LENGTH_LONG).show();
+                        } else {
+                            Toast.makeText(view.getContext(), "Something wrong happened :(", Toast.LENGTH_LONG).show();
+                        }
                     }
-                }
 
-                finish();
-                overridePendingTransition(R.anim.hold, R.anim.exit_bottom);
+                    finish();
+                    overridePendingTransition(R.anim.hold, R.anim.exit_bottom);
+                } else {
+                    EasyPermissions.requestPermissions(CreateEventActivity.this, Manifest.permission.WRITE_CALENDAR, WRITE_CALENDAR_PERMISSION_CODE, Manifest.permission.WRITE_CALENDAR);
+                }
             }
         });
     }
-
-    // From EasyPermisson Github guide
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);

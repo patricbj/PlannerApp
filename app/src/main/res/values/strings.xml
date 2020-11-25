@@ -15,4 +15,9 @@
     <string name="events_for_selected_date">Events for Selected Date</string>
     <string name="event_start">Event start:</string>
     <string name="event_end">Event end:</string>
+    <string name="title_here">Title here</string>
+    <string name="startdate_here">StartDate here</string>
+    <string name="enddate_here">EndDate here</string>
+    <string name="description_here">Description here</string>
+    <string name="plus_symbol">Plus-symbol</string>
 </resources>

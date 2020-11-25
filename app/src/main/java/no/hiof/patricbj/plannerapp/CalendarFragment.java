@@ -9,10 +9,14 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CalendarView;
+import com.applandeo.materialcalendarview.CalendarView;
+import com.applandeo.materialcalendarview.EventDay;
+import com.applandeo.materialcalendarview.listeners.OnDayClickListener;
+
 import android.widget.Toast;
 
 import java.util.Calendar;
@@ -50,15 +54,21 @@ public class CalendarFragment extends Fragment {
         final RecyclerView calendarEventRecyclerView = view.findViewById(R.id.calendarEventRecyclerView);
         calendarEventRecyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
 
-        calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+        calendarView.setOnDayClickListener(new OnDayClickListener() {
             @Override
-            public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
-                Calendar selectedDate = Calendar.getInstance();
-                selectedDate.set(year, month, dayOfMonth, 0, 0, 0);
+            public void onDayClick(EventDay eventDay) {
+                View view = getView();
+                Calendar selectedDate = eventDay.getCalendar();
+                selectedDate.set(
+                        selectedDate.get(Calendar.YEAR),
+                        selectedDate.get(Calendar.MONTH),
+                        selectedDate.get(Calendar.DAY_OF_MONTH),
+                        0, 0, 0);
                 if (EasyPermissions.hasPermissions(view.getContext(), Manifest.permission.READ_CALENDAR)) {
-                calendarEventRecyclerView.setAdapter(new CalendarEventRecyclerAdapter(
-                        view.getContext(),
-                        Event.getEventsOnDate(view.getContext(), selectedDate)));
+                    calendarEventRecyclerView.setAdapter(
+                            new CalendarEventRecyclerAdapter(
+                                    view.getContext(),
+                                    Event.getEventsOnDate(view.getContext(), selectedDate)));
                 } else {
                     if (getActivity() == null) {
                         Toast.makeText(view.getContext(), "Calendar: Activity is null", Toast.LENGTH_SHORT).show();

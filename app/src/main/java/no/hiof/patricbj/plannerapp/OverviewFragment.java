@@ -50,13 +50,19 @@ public class OverviewFragment extends Fragment {
         if (getContext() != null ) {
             if (EasyPermissions.hasPermissions(getContext(), Manifest.permission.READ_CALENDAR)) {
                 Toast.makeText(getContext(), "Permission already granted", Toast.LENGTH_SHORT).show();
-                overviewEventRecyclerView.setAdapter(new OverviewEventRecyclerAdapter(parentView.getContext(), Event.getEventsFromToday(parentView.getContext())));
+                overviewEventRecyclerView.setAdapter(new OverviewEventRecyclerAdapter(
+                        parentView.getContext(),
+                        Event.getEventsFromToday(parentView.getContext())));
             } else {
                 if (getActivity() == null) {
                     Toast.makeText(getContext(), "Something went wrong", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(getContext(), "Asking for permission", Toast.LENGTH_SHORT).show();
-                    EasyPermissions.requestPermissions(getActivity(), "We need permission", READ_CALENDAR_PERMISSION_CODE, Manifest.permission.READ_CALENDAR);
+                    EasyPermissions.requestPermissions(
+                            getActivity(),
+                            "We need permission",
+                            READ_CALENDAR_PERMISSION_CODE,
+                            Manifest.permission.READ_CALENDAR);
                 }
             }
         }

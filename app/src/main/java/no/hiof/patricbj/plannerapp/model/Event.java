@@ -1,19 +1,18 @@
 package no.hiof.patricbj.plannerapp.model;
 
-import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
+import android.net.Uri;
 import android.provider.CalendarContract;
-import android.widget.Toast;
+import android.util.Log;
 
+import java.io.Console;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
 public class Event {
-
-    private static final int READ_CALENDAR_PERMISSION_CODE = 101;
 
     private String title, note;
     private Calendar startDate, endDate;
@@ -57,30 +56,43 @@ public class Event {
         this.endDate = endDate;
     }
 
+    /* TODO: Finne ut hvorfor contentResolver.query returnerer uten data i begge metodene */
+
     public static ArrayList<Event> getEventsFromToday(Context context) {
-        // TODO: Need to find a way to get Events from a Calendar when a date is selected in CalendarView
 
         ArrayList<Event> eventList = new ArrayList<>();
 
-        ContentResolver contentResolver = context.getContentResolver();
-
+        Date date = Calendar.getInstance().getTime();
         Calendar today = Calendar.getInstance();
+        today.setTime(date);
+
+        today.set(
+                today.get(Calendar.YEAR),
+                today.get(Calendar.MONTH),
+                today.get(Calendar.DAY_OF_MONTH),
+                0,
+                0,
+                0);
 
         String[] projection = {
                 CalendarContract.Events.TITLE,
                 CalendarContract.Events.DESCRIPTION,
                 CalendarContract.Events.DTSTART,
-                CalendarContract.Events.DTEND
+                CalendarContract.Events.DTEND,
         };
 
         String DTSTART = CalendarContract.Events.DTSTART;
 
+        ContentResolver contentResolver = context.getContentResolver();
+
         Cursor cursor = contentResolver.query(
                 CalendarContract.Events.CONTENT_URI,
                 projection,
-                DTSTART + " > " + today.getTimeInMillis(),
+                DTSTART + " >= " + today.getTimeInMillis(),
                 null,
                 DTSTART + " ASC");
+
+        Log.d("Cursor", cursor.toString());
 
         if (cursor != null) {
             cursor.moveToFirst();
@@ -110,46 +122,44 @@ public class Event {
 
         ArrayList<Event> eventList = new ArrayList<>();
 
-        ContentResolver contentResolver = context.getContentResolver();
-
         String[] projection = {
                 CalendarContract.Events.TITLE,
                 CalendarContract.Events.DESCRIPTION,
                 CalendarContract.Events.DTSTART,
-                CalendarContract.Events.DTEND
+                CalendarContract.Events.DTEND,
         };
 
         String DTSTART = CalendarContract.Events.DTSTART;
 
+        ContentResolver contentResolver = context.getContentResolver();
+
         Cursor cursor = contentResolver.query(
                 CalendarContract.Events.CONTENT_URI,
                 projection,
-                DTSTART + " > " + selectedDate.getTimeInMillis() + " AND " +
-                        DTSTART + " <= " + (selectedDate.getTimeInMillis() + 86399999 /* 23 hours 59 min 59 sec 999 ms */),
+                DTSTART + " <= " + selectedDate.getTimeInMillis() + " AND " + DTSTART + " >= " + (selectedDate.getTimeInMillis() - 86399999),
                 null,
-                CalendarContract.Events.DTSTART + " ASC");
+                 DTSTART + " ASC");
 
         if (cursor != null) {
+            if (cursor.moveToFirst()) {
 
-            cursor.moveToFirst();
+                for (int i = 0; i < cursor.getCount(); i++) {
+                    Calendar startDate = Calendar.getInstance();
+                    startDate.setTimeInMillis(cursor.getLong(2));
+                    Calendar endDate = Calendar.getInstance();
+                    endDate.setTimeInMillis(cursor.getLong(3));
 
-            for (int i = 0; i < cursor.getCount(); i++) {
-                Calendar startDate = Calendar.getInstance();
-                startDate.setTimeInMillis(cursor.getLong(2));
-                Calendar endDate = Calendar.getInstance();
-                endDate.setTimeInMillis(cursor.getLong(3));
+                    Event event = new Event(
+                            cursor.getString(0),
+                            cursor.getString(1),
+                            startDate,
+                            endDate);
 
-                Event event = new Event(
-                        cursor.getString(0),
-                        cursor.getString(1),
-                        startDate,
-                        endDate);
-
-                eventList.add(event);
-                cursor.moveToNext();
+                    eventList.add(event);
+                    cursor.moveToNext();
+                }
+                cursor.close();
             }
-            cursor.close();
-
         }
         return eventList;
     }
