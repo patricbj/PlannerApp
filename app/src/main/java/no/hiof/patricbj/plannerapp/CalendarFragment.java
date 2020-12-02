@@ -54,32 +54,28 @@ public class CalendarFragment extends Fragment {
         final RecyclerView calendarEventRecyclerView = view.findViewById(R.id.calendarEventRecyclerView);
         calendarEventRecyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
 
-        calendarView.setOnDayClickListener(new OnDayClickListener() {
-            @Override
-            public void onDayClick(EventDay eventDay) {
-                View view = getView();
-                Calendar selectedDate = eventDay.getCalendar();
-                selectedDate.set(
-                        selectedDate.get(Calendar.YEAR),
-                        selectedDate.get(Calendar.MONTH),
-                        selectedDate.get(Calendar.DAY_OF_MONTH),
-                        0, 0, 0);
-                if (EasyPermissions.hasPermissions(view.getContext(), Manifest.permission.READ_CALENDAR)) {
-                    calendarEventRecyclerView.setAdapter(
-                            new CalendarEventRecyclerAdapter(
-                                    view.getContext(),
-                                    Event.getEventsOnDate(view.getContext(), selectedDate)));
+        calendarView.setOnDayClickListener(eventDay -> {
+            Calendar selectedDate = eventDay.getCalendar();
+            selectedDate.set(
+                    selectedDate.get(Calendar.YEAR),
+                    selectedDate.get(Calendar.MONTH),
+                    selectedDate.get(Calendar.DAY_OF_MONTH),
+                    0, 0, 0);
+            if (EasyPermissions.hasPermissions(view.getContext(), Manifest.permission.READ_CALENDAR)) {
+                calendarEventRecyclerView.setAdapter(
+                        new CalendarEventRecyclerAdapter(
+                                view.getContext(),
+                                Event.getEventsOnDate(view.getContext(), selectedDate)));
+            } else {
+                if (getActivity() == null) {
+                    Toast.makeText(view.getContext(), "Calendar: Activity is null", Toast.LENGTH_SHORT).show();
                 } else {
-                    if (getActivity() == null) {
-                        Toast.makeText(view.getContext(), "Calendar: Activity is null", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(view.getContext(), "Asking for permission", Toast.LENGTH_SHORT).show();
-                        EasyPermissions.requestPermissions(
-                                getActivity(),
-                                Manifest.permission.READ_CALENDAR,
-                                READ_CALENDAR_PERMISSION_CODE,
-                                Manifest.permission.READ_CALENDAR);
-                    }
+                    Toast.makeText(view.getContext(), "Asking for permission", Toast.LENGTH_SHORT).show();
+                    EasyPermissions.requestPermissions(
+                            getActivity(),
+                            Manifest.permission.READ_CALENDAR,
+                            READ_CALENDAR_PERMISSION_CODE,
+                            Manifest.permission.READ_CALENDAR);
                 }
             }
         });

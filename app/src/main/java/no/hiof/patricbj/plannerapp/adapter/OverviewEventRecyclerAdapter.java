@@ -71,7 +71,11 @@ public class OverviewEventRecyclerAdapter extends RecyclerView.Adapter<OverviewE
             Date endDate = end.getTime();
 
             titleView.setText(eventToDisplay.getTitle());
-            descView.setText(eventToDisplay.getNote());
+            if (eventToDisplay.getNote() == null || eventToDisplay.getNote().equals("")) {
+                descView.setVisibility(View.GONE);
+            } else {
+                descView.setText(eventToDisplay.getNote());
+            }
             startDateView.setText(dateTimeFormat.format(startDate));
             endDateView.setText(dateTimeFormat.format(endDate));
         }

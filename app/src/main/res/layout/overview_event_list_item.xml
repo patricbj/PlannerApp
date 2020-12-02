@@ -1,15 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    style="@style/Widget.MaterialComponents.CardView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="10dp">
+    android:layout_margin="10dp"
+    app:cardCornerRadius="@dimen/cardview_default_radius"
+    app:cardElevation="2dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="10dp">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/expandBtn"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:icon="@android:drawable/arrow_down_float"
+            app:iconGravity="textEnd"
+            app:iconSize="20dp"
+            app:iconTint="@color/colorPrimary"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/eventEndHeader"
@@ -50,7 +65,7 @@
             android:text="@string/event_start"
             android:textSize="18sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/guidelineDescription" />
+            app:layout_constraintTop_toBottomOf="@+id/descView" />
 
         <TextView
             android:id="@+id/endDateView"
@@ -70,7 +85,6 @@
             android:layout_marginTop="10dp"
             android:hint="@string/description_here"
             android:textSize="18sp"
-            app:layout_constraintBottom_toTopOf="@+id/guidelineDescription"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/titleView" />
 
@@ -81,12 +95,5 @@
             android:orientation="vertical"
             app:layout_constraintGuide_begin="109dp" />
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guidelineDescription"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_begin="77dp" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.cardview.widget.CardView>
+</com.google.android.material.card.MaterialCardView>

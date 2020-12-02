@@ -84,10 +84,10 @@
 
                 <Button
                     android:id="@+id/btnFromDate"
-                    style="@android:style/Widget.DeviceDefault.Light.Button.Borderless.Small"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/select_date"
+                    app:backgroundTint="@color/colorAccent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/fieldFromDate"
                     app:layout_constraintTop_toTopOf="@+id/fieldFromDate" />
@@ -112,10 +112,10 @@
 
                 <Button
                     android:id="@+id/btnFromTime"
-                    style="@android:style/Widget.DeviceDefault.Button.Borderless.Small"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/select_time"
+                    app:backgroundTint="@color/colorAccent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/fieldFromTime"
                     app:layout_constraintTop_toTopOf="@+id/fieldFromTime" />
@@ -140,10 +140,10 @@
 
                 <Button
                     android:id="@+id/btnToDate"
-                    style="@android:style/Widget.DeviceDefault.Button.Borderless.Small"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/select_date"
+                    app:backgroundTint="@color/colorAccent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/fieldEndDate"
                     app:layout_constraintTop_toTopOf="@+id/fieldEndDate" />
@@ -168,10 +168,10 @@
 
                 <Button
                     android:id="@+id/btnToTime"
-                    style="@android:style/Widget.DeviceDefault.Button.Borderless.Small"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/select_time"
+                    app:backgroundTint="@color/colorAccent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/fieldEndTime"
                     app:layout_constraintTop_toTopOf="@+id/fieldEndTime" />
@@ -183,12 +183,12 @@
 
                 <Button
                     android:id="@+id/btnCreateEvent"
-                    style="@style/Widget.AppCompat.Button.Colored"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="50dp"
                     android:layout_marginBottom="50dp"
                     android:text="@string/create_event"
+                    app:backgroundTint="@color/colorAccent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
