@@ -66,14 +66,14 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
+        android:contentDescription="@string/plus_symbol"
         android:hapticFeedbackEnabled="true"
         android:soundEffectsEnabled="true"
         app:backgroundTint="@color/colorAccent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:maxImageSize="50dp"
-        app:srcCompat="@android:drawable/ic_menu_add"
-        android:contentDescription="@string/plus_symbol" />
+        app:srcCompat="@drawable/add_black" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

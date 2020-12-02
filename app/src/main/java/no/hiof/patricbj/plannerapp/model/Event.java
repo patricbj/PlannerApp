@@ -60,8 +60,6 @@ public class Event {
 
     public static ArrayList<Event> getEventsFromToday(Context context) {
 
-        ArrayList<Event> eventList = new ArrayList<>();
-
         Date date = Calendar.getInstance().getTime();
         Calendar today = Calendar.getInstance();
         today.setTime(date);
@@ -92,35 +90,10 @@ public class Event {
                 null,
                 DTSTART + " ASC");
 
-        Log.d("Cursor", cursor.toString());
-
-        if (cursor != null) {
-            cursor.moveToFirst();
-
-            for (int i = 0; i < cursor.getCount(); i++) {
-                Calendar startDate = Calendar.getInstance();
-                startDate.setTimeInMillis(cursor.getLong(2));
-                Calendar endDate = Calendar.getInstance();
-                endDate.setTimeInMillis(cursor.getLong(3));
-
-                Event event = new Event(
-                        cursor.getString(0),
-                        cursor.getString(1),
-                        startDate,
-                        endDate);
-
-                eventList.add(event);
-                cursor.moveToNext();
-            }
-            cursor.close();
-
-        }
-        return eventList;
+        return createEvents(cursor);
     }
 
     public static ArrayList<Event> getEventsOnDate(Context context, Calendar selectedDate) {
-
-        ArrayList<Event> eventList = new ArrayList<>();
 
         String[] projection = {
                 CalendarContract.Events.TITLE,
@@ -136,9 +109,18 @@ public class Event {
         Cursor cursor = contentResolver.query(
                 CalendarContract.Events.CONTENT_URI,
                 projection,
-                DTSTART + " <= " + selectedDate.getTimeInMillis() + " AND " + DTSTART + " >= " + (selectedDate.getTimeInMillis() - 86399999),
+                DTSTART + " >= " +
+                        selectedDate.getTimeInMillis() + " AND " +
+                        DTSTART + " < " +
+                        (selectedDate.getTimeInMillis() - 86400000),
                 null,
                  DTSTART + " ASC");
+
+        return createEvents(cursor);
+    }
+
+    private static ArrayList<Event> createEvents(Cursor cursor) {
+        ArrayList<Event> eventList = new ArrayList<>();
 
         if (cursor != null) {
             if (cursor.moveToFirst()) {

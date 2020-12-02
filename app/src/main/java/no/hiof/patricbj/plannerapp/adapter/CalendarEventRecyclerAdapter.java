@@ -20,8 +20,8 @@ import no.hiof.patricbj.plannerapp.model.Event;
 
 public class CalendarEventRecyclerAdapter extends RecyclerView.Adapter<CalendarEventRecyclerAdapter.CalendarEventViewHolder> {
 
-    private List<Event> eventList;
-    private LayoutInflater inflater;
+    private final List<Event> eventList;
+    private final LayoutInflater inflater;
 
     public CalendarEventRecyclerAdapter(Context context, List<Event> eventList) {
         inflater = LayoutInflater.from(context);
@@ -49,7 +49,8 @@ public class CalendarEventRecyclerAdapter extends RecyclerView.Adapter<CalendarE
     }
 
     public static class CalendarEventViewHolder extends RecyclerView.ViewHolder {
-        private TextView titleTextView, descTextView, startTextView, endTextView;
+        private final TextView titleTextView;
+        private final TextView startTextView;
 
         public CalendarEventViewHolder(@NonNull View itemView) {
             super(itemView);

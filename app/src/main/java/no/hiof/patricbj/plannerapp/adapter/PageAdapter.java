@@ -10,7 +10,7 @@ import no.hiof.patricbj.plannerapp.OverviewFragment;
 
 public class PageAdapter extends FragmentPagerAdapter {
 
-    private int numberoftabs;
+    private final int numberoftabs;
 
     public PageAdapter(FragmentManager fm, int numberoftabs) {
         super(fm);

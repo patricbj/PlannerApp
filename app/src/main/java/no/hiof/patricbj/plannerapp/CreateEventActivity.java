@@ -65,17 +65,17 @@ public class CreateEventActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Create Event");
 
-        btnStartDate = (Button) findViewById(R.id.btnFromDate);
-        btnStartTime = (Button) findViewById(R.id.btnFromTime);
-        btnEndDate = (Button) findViewById(R.id.btnToDate);
-        btnEndTime = (Button) findViewById(R.id.btnToTime);
-        btnCreateEvent = (Button) findViewById(R.id.btnCreateEvent);
-        fieldTitle = (EditText) findViewById(R.id.fieldTitle);
-        fieldNote = (EditText) findViewById(R.id.fieldNote);
-        fieldStartDate = (EditText) findViewById(R.id.fieldFromDate);
-        fieldStartTime = (EditText) findViewById(R.id.fieldFromTime);
-        fieldEndDate = (EditText) findViewById(R.id.fieldEndDate);
-        fieldEndTime = (EditText) findViewById(R.id.fieldEndTime);
+        btnStartDate = findViewById(R.id.btnFromDate);
+        btnStartTime = findViewById(R.id.btnFromTime);
+        btnEndDate = findViewById(R.id.btnToDate);
+        btnEndTime = findViewById(R.id.btnToTime);
+        btnCreateEvent = findViewById(R.id.btnCreateEvent);
+        fieldTitle = findViewById(R.id.fieldTitle);
+        fieldNote = findViewById(R.id.fieldNote);
+        fieldStartDate = findViewById(R.id.fieldFromDate);
+        fieldStartTime = findViewById(R.id.fieldFromTime);
+        fieldEndDate = findViewById(R.id.fieldEndDate);
+        fieldEndTime = findViewById(R.id.fieldEndTime);
 
 
         btnStartDate.setOnClickListener(new View.OnClickListener() {
@@ -220,7 +220,7 @@ public class CreateEventActivity extends AppCompatActivity {
 
                     if ((fieldStartDate.getText() != null) && (fieldStartTime.getText() != null)) {
                         try {
-                            beginTime.setTime(dateFormatDateTime.parse(String.valueOf(fieldStartDate.getText() + " " + fieldStartTime.getText())));
+                            beginTime.setTime(dateFormatDateTime.parse(fieldStartDate.getText() + " " + fieldStartTime.getText()));
                         } catch (ParseException ignored) {
                         }
                     } else {
@@ -228,7 +228,7 @@ public class CreateEventActivity extends AppCompatActivity {
                     }
 //
                     try {
-                        endTime.setTime(dateFormatDateTime.parse(String.valueOf(fieldStartDate.getText() + " " + fieldStartTime.getText())));
+                        endTime.setTime(dateFormatDateTime.parse(fieldStartDate.getText() + " " + fieldStartTime.getText()));
                     } catch (ParseException ignored) {
                     }
 
@@ -267,7 +267,6 @@ public class CreateEventActivity extends AppCompatActivity {
                     }
 
                     finish();
-                    overridePendingTransition(R.anim.hold, R.anim.exit_bottom);
                 } else {
                     EasyPermissions.requestPermissions(CreateEventActivity.this, Manifest.permission.WRITE_CALENDAR, WRITE_CALENDAR_PERMISSION_CODE, Manifest.permission.WRITE_CALENDAR);
                 }

@@ -21,8 +21,8 @@ import no.hiof.patricbj.plannerapp.model.Event;
 
 public class OverviewEventRecyclerAdapter extends RecyclerView.Adapter<OverviewEventRecyclerAdapter.OverviewEventViewHolder> {
 
-    private List<Event> eventList;
-    private LayoutInflater inflater;
+    private final List<Event> eventList;
+    private final LayoutInflater inflater;
 
     public OverviewEventRecyclerAdapter(Context context, List<Event> eventList) {
         inflater = LayoutInflater.from(context);
@@ -50,7 +50,7 @@ public class OverviewEventRecyclerAdapter extends RecyclerView.Adapter<OverviewE
     }
 
     public static class OverviewEventViewHolder extends RecyclerView.ViewHolder {
-        private TextView titleView, descView, startDateView, endDateView;
+        private final TextView titleView, descView, startDateView, endDateView;
 
         public OverviewEventViewHolder(@NonNull View itemView) {
             super(itemView);

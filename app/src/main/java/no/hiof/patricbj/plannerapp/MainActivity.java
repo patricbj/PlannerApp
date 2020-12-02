@@ -28,9 +28,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        tabLayout = (TabLayout) findViewById(R.id.tabLayout);
-        tabCalendar = (TabItem) findViewById(R.id.tabCalendar);
-        tabOverview = (TabItem) findViewById(R.id.tabOverview);
+        tabLayout = findViewById(R.id.tabLayout);
+        tabCalendar = findViewById(R.id.tabCalendar);
+        tabOverview = findViewById(R.id.tabOverview);
         viewPager = findViewById(R.id.viewpager);
         FloatingActionButton addEventButton = findViewById(R.id.addEventButton);
 
@@ -61,13 +61,9 @@ public class MainActivity extends AppCompatActivity {
 
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
 
-        addEventButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent createEventIntent = new Intent(MainActivity.this, CreateEventActivity.class);
-                startActivity(createEventIntent);
-                overridePendingTransition(R.anim.enter_bottom, R.anim.hold);
-            }
+        addEventButton.setOnClickListener(view -> {
+            Intent createEventIntent = new Intent(MainActivity.this, CreateEventActivity.class);
+            startActivity(createEventIntent);
         });
     }
 }
