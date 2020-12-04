@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "465266257079",
+    "project_id": "plannerapp-c55a3",
+    "storage_bucket": "plannerapp-c55a3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:465266257079:android:54a07ff4e808a6fce1f132",
+        "android_client_info": {
+          "package_name": "no.hiof.patricbj.plannerapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "465266257079-mvnal5lmraftj8hm2glsc7jdh9nas0an.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBB6a7ZHVtW0XqC4BSAYuA2cF47axzGwnQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "465266257079-mvnal5lmraftj8hm2glsc7jdh9nas0an.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

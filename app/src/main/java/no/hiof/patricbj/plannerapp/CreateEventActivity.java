@@ -62,9 +62,10 @@ public class CreateEventActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_event);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Create Event");
-
+        if(getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setTitle("Create Event");
+        }
         btnStartDate = findViewById(R.id.btnFromDate);
         btnStartTime = findViewById(R.id.btnFromTime);
         btnEndDate = findViewById(R.id.btnToDate);
@@ -78,99 +79,81 @@ public class CreateEventActivity extends AppCompatActivity {
         fieldEndTime = findViewById(R.id.fieldEndTime);
 
 
-        btnStartDate.setOnClickListener(new View.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-            @Override
-            public void onClick(View view) {
-                Calendar calendar = Calendar.getInstance();
-                int year = calendar.get(Calendar.YEAR);
-                int month = calendar.get(Calendar.MONTH);
-                int day = calendar.get(Calendar.DAY_OF_MONTH);
+        btnStartDate.setOnClickListener(view -> {
+            Calendar calendar = Calendar.getInstance();
+            int year = calendar.get(Calendar.YEAR);
+            int month = calendar.get(Calendar.MONTH);
+            int day = calendar.get(Calendar.DAY_OF_MONTH);
 
-                DatePickerDialog dialog = new DatePickerDialog(
-                        CreateEventActivity.this,
-                        android.R.style.Theme_DeviceDefault_Dialog_MinWidth,
-                        startDatePickerSetListener = new DatePickerDialog.OnDateSetListener() {
-                            @Override
-                            public void onDateSet(DatePicker datePicker, int year, int month, int dayOfMonth) {
-                                month += 1;
-                                Log.d(TAG, "onDateSet: dd/mm/yyyy: " + dayOfMonth + "/" + month + "/" + year);
+            DatePickerDialog dialog = new DatePickerDialog(
+                    CreateEventActivity.this,
+                    android.R.style.Theme_DeviceDefault_Dialog_MinWidth,
+                    startDatePickerSetListener = (datePicker, year12, month12, dayOfMonth) -> {
+                        month12 += 1;
+                        Log.d(TAG, "onDateSet: dd/mm/yyyy: " + dayOfMonth + "/" + month12 + "/" + year12);
 
-                                String date = dayOfMonth + "/" + month + "/" + year;
-                                fieldStartDate.setText(date);
-                            }
-                        },
-                        year, month, day);
-                Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.DKGRAY));
-                dialog.setTitle("Set start date");
-                dialog.show();
-            }
+                        String date = dayOfMonth + "/" + month12 + "/" + year12;
+                        fieldStartDate.setText(date);
+                    },
+                    year, month, day);
+            Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.DKGRAY));
+            dialog.setTitle("Set start date");
+            dialog.show();
         });
 
-        btnStartTime.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                TimePickerDialog timePickerDialog = new TimePickerDialog(
-                        CreateEventActivity.this,
-                        android.R.style.Theme_Holo_Dialog_MinWidth,
-                        new TimePickerDialog.OnTimeSetListener() {
-                            @RequiresApi(api = Build.VERSION_CODES.N)
-                            @Override
-                            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                                fromHour = hourOfDay;
-                                fromMinute = minute;
+        btnStartTime.setOnClickListener(view -> {
+            TimePickerDialog timePickerDialog = new TimePickerDialog(
+                    CreateEventActivity.this,
+                    android.R.style.Theme_Holo_Dialog_MinWidth,
+                    (view12, hourOfDay, minute) -> {
+                        fromHour = hourOfDay;
+                        fromMinute = minute;
 
-                                String time = fromHour + ":" + fromMinute;
-                                SimpleDateFormat f24Hours = new SimpleDateFormat(
-                                        "HH:mm", Locale.ENGLISH
-                                );
-                                try {
-                                    Date date = f24Hours.parse(time);
-                                    assert date != null;
-                                    fieldStartTime.setText(f24Hours.format(date));
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        }, 24, 0, true
-                );
-                try {
-                    timePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                } catch (NullPointerException ignored) {
-                }
+                        String time = fromHour + ":" + fromMinute;
+                        SimpleDateFormat f24Hours = new SimpleDateFormat(
+                                "HH:mm", Locale.ENGLISH
+                        );
+                        try {
+                            Date date = f24Hours.parse(time);
+                            assert date != null;
+                            fieldStartTime.setText(f24Hours.format(date));
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }, 24, 0, true
+            );
+
+            if (timePickerDialog.getWindow() != null) {
+                timePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 timePickerDialog.setTitle("Set start time");
                 timePickerDialog.updateTime(fromHour, fromMinute);
                 timePickerDialog.show();
             }
         });
 
-        btnEndTime.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                TimePickerDialog timePickerDialog = new TimePickerDialog(
-                        CreateEventActivity.this,
-                        android.R.style.Theme_Holo_Dialog_MinWidth,
-                        new TimePickerDialog.OnTimeSetListener() {
-                            @RequiresApi(api = Build.VERSION_CODES.N)
-                            @Override
-                            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                                toHour = hourOfDay;
-                                toMinute = minute;
+        btnEndTime.setOnClickListener(view -> {
+            TimePickerDialog timePickerDialog = new TimePickerDialog(
+                    CreateEventActivity.this,
+                    android.R.style.Theme_Holo_Dialog_MinWidth,
+                    (view1, hourOfDay, minute) -> {
+                        toHour = hourOfDay;
+                        toMinute = minute;
 
-                                String time = toHour + ":" + toMinute;
-                                SimpleDateFormat f24Hours = new SimpleDateFormat(
-                                        "HH:mm", Locale.ENGLISH
-                                );
-                                try {
-                                    Date date = f24Hours.parse(time);
-                                    assert date != null;
-                                    fieldEndTime.setText(f24Hours.format(date));
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        }, 24, 0, true
-                );
+                        String time = toHour + ":" + toMinute;
+                        SimpleDateFormat f24Hours = new SimpleDateFormat(
+                                "HH:mm", Locale.ENGLISH
+                        );
+                        try {
+                            Date date = f24Hours.parse(time);
+                            assert date != null;
+                            fieldEndTime.setText(f24Hours.format(date));
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }, 24, 0, true
+            );
+
+            if (timePickerDialog.getWindow() != null) {
                 timePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 timePickerDialog.setTitle("Set end time");
                 timePickerDialog.updateTime(fromHour, fromMinute);
@@ -178,61 +161,55 @@ public class CreateEventActivity extends AppCompatActivity {
             }
         });
 
-        btnEndDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Calendar calendar = Calendar.getInstance();
-                int year = calendar.get(Calendar.YEAR);
-                int month = calendar.get(Calendar.MONTH);
-                int day = calendar.get(Calendar.DAY_OF_MONTH);
+        btnEndDate.setOnClickListener(view -> {
+            Calendar calendar = Calendar.getInstance();
+            int year = calendar.get(Calendar.YEAR);
+            int month = calendar.get(Calendar.MONTH);
+            int day = calendar.get(Calendar.DAY_OF_MONTH);
 
-                DatePickerDialog dialog = new DatePickerDialog(
-                        CreateEventActivity.this,
-                        android.R.style.Theme_DeviceDefault_Dialog_MinWidth,
-                        endDatePickerSetListener = new DatePickerDialog.OnDateSetListener() {
-                            @Override
-                            public void onDateSet(DatePicker datePicker, int year, int month, int dayOfMonth) {
-                                month += 1;
-                                Log.d(TAG, "onDateSet: dd/mm/yyyy: " + dayOfMonth + "/" + month + "/" + year);
+            DatePickerDialog dialog = new DatePickerDialog(
+                    CreateEventActivity.this,
+                    android.R.style.Theme_DeviceDefault_Dialog_MinWidth,
+                    endDatePickerSetListener = (datePicker, year1, month1, dayOfMonth) -> {
+                        month1 += 1;
+                        Log.d(TAG, "onDateSet: dd/mm/yyyy: " + dayOfMonth + "/" + month1 + "/" + year1);
 
-                                String date = dayOfMonth + "/" + month + "/" + year;
-                                fieldEndDate.setText(date);
-                            }
-                        },
-                        year, month, day);
+                        String date = dayOfMonth + "/" + month1 + "/" + year1;
+                        fieldEndDate.setText(date);
+                    },
+                    year, month, day);
+            if (dialog.getWindow() != null) {
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.DKGRAY));
                 dialog.show();
             }
         });
 
-        btnCreateEvent.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        btnCreateEvent.setOnClickListener(view -> {
 
-                if (EasyPermissions.hasPermissions(view.getContext(), Manifest.permission.WRITE_CALENDAR)) {
-                    Toast.makeText(CreateEventActivity.this, "Permission already granted", Toast.LENGTH_SHORT).show();
+            if (EasyPermissions.hasPermissions(view.getContext(), Manifest.permission.WRITE_CALENDAR)) {
+                Toast.makeText(CreateEventActivity.this, "Permission already granted", Toast.LENGTH_SHORT).show();
 
-                    long calID = 1;
+                long calID = 1;
 
-                    DateFormat dateFormatDateTime = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.ENGLISH);
-                    Calendar beginTime = Calendar.getInstance();
-                    Calendar endTime = Calendar.getInstance();
+                DateFormat dateFormatDateTime = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.ENGLISH);
+                Calendar beginTime = Calendar.getInstance();
+                Calendar endTime = Calendar.getInstance();
 
-                    if ((fieldStartDate.getText() != null) && (fieldStartTime.getText() != null)) {
-                        try {
-                            beginTime.setTime(dateFormatDateTime.parse(fieldStartDate.getText() + " " + fieldStartTime.getText()));
-                        } catch (ParseException ignored) {
-                        }
-                    } else {
-                        Toast.makeText(view.getContext(), "Start date or time is empty", Toast.LENGTH_SHORT).show();
-                    }
-//
+                if ((fieldStartDate.getText() != null) && (fieldStartTime.getText() != null)) {
                     try {
-                        endTime.setTime(dateFormatDateTime.parse(fieldStartDate.getText() + " " + fieldStartTime.getText()));
+                        beginTime.setTime(dateFormatDateTime.parse(fieldStartDate.getText() + " " + fieldStartTime.getText()));
                     } catch (ParseException ignored) {
                     }
+                } else {
+                    Toast.makeText(view.getContext(), "Start date or time is empty", Toast.LENGTH_SHORT).show();
+                }
+//
+                try {
+                    endTime.setTime(dateFormatDateTime.parse(fieldStartDate.getText() + " " + fieldStartTime.getText()));
+                } catch (ParseException ignored) {
+                }
 
-                    // Adding events using intent
+                // Adding events using intent
 //                Calendar endTime = Calendar.getInstance();
 //                endTime.set(2020, 10, 19, 22, 0);
 //                endMillis = endTime.getTimeInMillis();
@@ -248,28 +225,28 @@ public class CreateEventActivity extends AppCompatActivity {
 //                intent.putExtra("title", "A test event from PlannerApp");
 //                startActivity(intent);
 
-                    ContentResolver cr = getContentResolver();
-                    ContentValues cv = new ContentValues();
-                    cv.put(CalendarContract.Events.TITLE, String.valueOf(fieldTitle.getText()));
-                    cv.put(CalendarContract.Events.DESCRIPTION, String.valueOf(fieldNote.getText()));
-                    cv.put(CalendarContract.Events.CALENDAR_ID, calID);
-                    cv.put(CalendarContract.Events.DTSTART, beginTime.getTimeInMillis());
-                    cv.put(CalendarContract.Events.DTEND, endTime.getTimeInMillis());
-                    cv.put(CalendarContract.Events.EVENT_TIMEZONE, Calendar.getInstance().getTimeZone().getID());
-                    Uri uri = cr.insert(CalendarContract.Events.CONTENT_URI, cv);
-                    if (uri != null) {
-                        if (uri.getLastPathSegment() != null) {
-                            long eventID = Long.parseLong(uri.getLastPathSegment());
-                            Toast.makeText(view.getContext(), "Created event with ID " + eventID, Toast.LENGTH_LONG).show();
-                        } else {
-                            Toast.makeText(view.getContext(), "Something wrong happened :(", Toast.LENGTH_LONG).show();
-                        }
+                ContentResolver cr = getApplicationContext().getContentResolver();
+                ContentValues cv = new ContentValues();
+                cv.put(CalendarContract.Events.TITLE, String.valueOf(fieldTitle.getText()));
+                cv.put(CalendarContract.Events.DESCRIPTION, String.valueOf(fieldNote.getText()));
+                cv.put(CalendarContract.Events.CALENDAR_ID, calID);
+                cv.put(CalendarContract.Events.DTSTART, beginTime.getTimeInMillis());
+                cv.put(CalendarContract.Events.DTEND, endTime.getTimeInMillis());
+                cv.put(CalendarContract.Events.EVENT_TIMEZONE, Calendar.getInstance().getTimeZone().getID());
+                Uri uri = cr.insert(CalendarContract.Events.CONTENT_URI, cv);
+                if (uri != null) {
+                    Log.d("EventID", uri.getLastPathSegment());
+                    if (uri.getLastPathSegment() != null) {
+                        long eventID = Long.parseLong(uri.getLastPathSegment());
+                        Toast.makeText(view.getContext(), "Created event with ID " + eventID, Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(view.getContext(), "Something wrong happened :(", Toast.LENGTH_LONG).show();
                     }
 
                     finish();
-                } else {
-                    EasyPermissions.requestPermissions(CreateEventActivity.this, Manifest.permission.WRITE_CALENDAR, WRITE_CALENDAR_PERMISSION_CODE, Manifest.permission.WRITE_CALENDAR);
                 }
+            } else {
+                EasyPermissions.requestPermissions(CreateEventActivity.this, Manifest.permission.WRITE_CALENDAR, WRITE_CALENDAR_PERMISSION_CODE, Manifest.permission.WRITE_CALENDAR);
             }
         });
     }

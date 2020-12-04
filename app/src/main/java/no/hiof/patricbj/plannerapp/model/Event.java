@@ -56,8 +56,6 @@ public class Event {
         this.endDate = endDate;
     }
 
-    /* TODO: Finne ut hvorfor contentResolver.query returnerer uten data i begge metodene */
-
     public static ArrayList<Event> getEventsFromToday(Context context) {
 
         Date date = Calendar.getInstance().getTime();
@@ -112,7 +110,7 @@ public class Event {
                 DTSTART + " >= " +
                         selectedDate.getTimeInMillis() + " AND " +
                         DTSTART + " < " +
-                        (selectedDate.getTimeInMillis() - 86400000),
+                        (selectedDate.getTimeInMillis() + 86400000),
                 null,
                  DTSTART + " ASC");
 
