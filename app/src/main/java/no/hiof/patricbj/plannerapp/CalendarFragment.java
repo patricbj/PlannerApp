@@ -1,7 +1,14 @@
 package no.hiof.patricbj.plannerapp;
 
 import android.Manifest;
+import android.content.ContentResolver;
+import android.database.Cursor;
 import android.os.Bundle;
+import android.provider.CalendarContract;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -9,17 +16,12 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import com.applandeo.materialcalendarview.CalendarView;
 import com.applandeo.materialcalendarview.EventDay;
-import com.applandeo.materialcalendarview.listeners.OnDayClickListener;
 
-import android.widget.Toast;
-
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import no.hiof.patricbj.plannerapp.adapter.CalendarEventRecyclerAdapter;
 import no.hiof.patricbj.plannerapp.model.Event;
@@ -50,6 +52,8 @@ public class CalendarFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         CalendarView calendarView = view.findViewById(R.id.calendarView);
+
+        calendarView.setEvents(getAllEventDays());
 
         final RecyclerView calendarEventRecyclerView = view.findViewById(R.id.calendarEventRecyclerView);
         calendarEventRecyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
@@ -87,5 +91,43 @@ public class CalendarFragment extends Fragment {
 
         // Forward results to EasyPermissions
         EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
+    }
+
+    private List<EventDay> getAllEventDays() {
+        String[] projection = {
+                CalendarContract.Events.TITLE,
+                CalendarContract.Events.DESCRIPTION,
+                CalendarContract.Events.DTSTART,
+                CalendarContract.Events.DTEND,
+        };
+
+        List<EventDay> eventDays = new ArrayList<>();
+
+        if (getContext() != null) {
+            ContentResolver contentResolver = getContext().getContentResolver();
+
+            Cursor cursor = contentResolver.query(CalendarContract.Events.CONTENT_URI,
+                    projection,
+                    null,
+                    null,
+                    CalendarContract.Events.DTSTART + " ASC");
+
+            if (cursor != null) {
+                cursor.moveToFirst();
+
+                for (int i = 0; i < cursor.getCount(); i++) {
+                    Calendar calendarDate = Calendar.getInstance();
+                    calendarDate.setTimeInMillis(cursor.getLong(2));
+
+                    eventDays.add(new EventDay(calendarDate, R.drawable.event_dot));
+
+                    cursor.moveToNext();
+                }
+
+                cursor.close();
+            }
+        }
+
+        return eventDays;
     }
 }
