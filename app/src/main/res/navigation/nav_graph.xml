@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/calendarFragment">
+
+    <fragment
+        android:id="@+id/calendarFragment"
+        android:name="no.hiof.patricbj.plannerapp.CalendarFragment"
+        android:label="Calendar"
+        tools:layout="@layout/fragment_calendar" />
+    <activity
+        android:id="@+id/createEventActivity"
+        android:name="no.hiof.patricbj.plannerapp.CreateEventActivity"
+        android:label="Create Event"
+        tools:layout="@layout/activity_create_event"/>
+    <fragment
+        android:id="@+id/overviewFragment"
+        android:name="no.hiof.patricbj.plannerapp.OverviewFragment"
+        android:label="Event Overview"
+        tools:layout="@layout/fragment_overview" />
+</navigation>

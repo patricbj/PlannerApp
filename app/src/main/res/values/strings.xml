@@ -51,4 +51,12 @@
     <string name="material_calendar_today_button">Today</string>
     <string name="material_calendar_positive_button">OK</string>
     <string name="material_calendar_negative_button">Cancel</string>
+    <string name="menu_button">menu button</string>
+    <string name="calendar">Calendar</string>
+    <string name="overview">Overview</string>
+    <string name="signout">Signout</string>
+    <string name="username_placeholder">Brukernavn her!</string>
+    <string name="current_user_header">Currently logged in as:</string>
+    <string name="user_email_placeholder">User email here!</string>
+    <string name="delete_btn_description">delete button</string>
 </resources>

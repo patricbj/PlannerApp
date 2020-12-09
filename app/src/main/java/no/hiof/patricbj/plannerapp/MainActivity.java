@@ -2,35 +2,28 @@ package no.hiof.patricbj.plannerapp;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.widget.CalendarView;
+import android.view.Menu;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.viewpager.widget.ViewPager;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
+import androidx.navigation.ui.NavigationUI;
 
 import com.firebase.ui.auth.AuthUI;
-import com.firebase.ui.auth.IdpResponse;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.tabs.TabItem;
-import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.util.Arrays;
 import java.util.List;
 
-import no.hiof.patricbj.plannerapp.adapter.PageAdapter;
-
 public class MainActivity extends AppCompatActivity {
-
-    private TabLayout tabLayout;
-    private ViewPager viewPager;
-    private TabItem tabCalendar, tabOverview;
-    private CalendarView calendarView;
-
-    public PageAdapter pageradapter;
 
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener authStateListener;
@@ -41,6 +34,19 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        View navigationHeader = navigationView.getHeaderView(0);
+        Menu navigationMenu = navigationView.getMenu();
+        FloatingActionButton addEventButton = findViewById(R.id.addEventButton);
+        TextView username = navigationHeader.findViewById(R.id.current_username);
+        TextView email = navigationHeader.findViewById(R.id.current_email);
+
+        NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
+        NavController navController = navHostFragment.getNavController();
+
+        NavigationUI.setupWithNavController(navigationView, navController);
 
         mAuth = FirebaseAuth.getInstance();
         authStateListener = firebaseAuth -> {
@@ -57,43 +63,15 @@ public class MainActivity extends AppCompatActivity {
                                 .setAvailableProviders(providers)
                                 .build(),
                         RC_SIGN_IN);
-            } else {
-                Toast.makeText(getBaseContext(), "Welcome, " + currentUser.getDisplayName(), Toast.LENGTH_LONG).show();
             }
         };
 
-        tabLayout = findViewById(R.id.tabLayout);
-        tabCalendar = findViewById(R.id.tabCalendar);
-        tabOverview = findViewById(R.id.tabOverview);
-        viewPager = findViewById(R.id.viewpager);
-        FloatingActionButton addEventButton = findViewById(R.id.addEventButton);
+        FirebaseUser currentUser = mAuth.getCurrentUser();
 
-        pageradapter = new PageAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
-        viewPager.setAdapter(pageradapter);
-
-        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                viewPager.setCurrentItem(tab.getPosition());
-                if (tab.getPosition() == 0) {
-                    pageradapter.notifyDataSetChanged();
-                } else if (tab.getPosition() == 1) {
-                    pageradapter.notifyDataSetChanged();
-                }
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
-        });
-
-        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+        if (currentUser != null) {
+            username.setText(currentUser.getDisplayName());
+            email.setText(currentUser.getEmail());
+        }
 
         addEventButton.setOnClickListener(view -> {
             Intent createEventIntent = new Intent(MainActivity.this, CreateEventActivity.class);

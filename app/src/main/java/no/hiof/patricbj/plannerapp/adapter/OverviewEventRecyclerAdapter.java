@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -49,8 +50,22 @@ public class OverviewEventRecyclerAdapter extends RecyclerView.Adapter<OverviewE
         return eventList.size();
     }
 
-    public static class OverviewEventViewHolder extends RecyclerView.ViewHolder {
+    private void removeEvent(int position, Context context) {
+        Event eventToDelete = eventList.get(position);
+        eventToDelete.delete(context);
+        eventList.remove(position);
+        notifyItemRemoved(position);
+        notifyItemRangeChanged(position, eventList.size());
+    }
+
+    private void editEvent(Event event) {
+
+    }
+
+    public class OverviewEventViewHolder extends RecyclerView.ViewHolder {
         private final TextView titleView, descView, startDateView, endDateView;
+        private int position;
+        private Event event;
 
         public OverviewEventViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -59,6 +74,10 @@ public class OverviewEventRecyclerAdapter extends RecyclerView.Adapter<OverviewE
             descView = itemView.findViewById(R.id.descView);
             startDateView = itemView.findViewById(R.id.startDateView);
             endDateView = itemView.findViewById(R.id.endDateView);
+            ImageView deleteEventBtn = itemView.findViewById(R.id.deleteEventBtn);
+            //editEventBtn = itemView.findViewById(R.id.editEventBtn);
+
+            deleteEventBtn.setOnClickListener(v -> removeEvent(position, itemView.getContext()));
         }
 
         public void setEvent(Event eventToDisplay) {
@@ -78,6 +97,8 @@ public class OverviewEventRecyclerAdapter extends RecyclerView.Adapter<OverviewE
             }
             startDateView.setText(dateTimeFormat.format(startDate));
             endDateView.setText(dateTimeFormat.format(endDate));
+
+            this.event = eventToDisplay;
         }
     }
 }

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     style="@style/Widget.MaterialComponents.CardView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -14,18 +13,6 @@
         android:layout_height="match_parent"
         android:padding="10dp">
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/expandBtn"
-            style="@style/Widget.MaterialComponents.Button.TextButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:icon="@android:drawable/arrow_down_float"
-            app:iconGravity="textEnd"
-            app:iconSize="20dp"
-            app:iconTint="@color/colorPrimary"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
         <TextView
             android:id="@+id/eventEndHeader"
             android:layout_width="0dp"
@@ -33,17 +20,19 @@
             android:layout_margin="10dp"
             android:text="@string/event_end"
             android:textSize="18sp"
+            app:layout_constraintEnd_toStartOf="@+id/endDateView"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/eventStartHeader" />
 
         <TextView
             android:id="@+id/titleView"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="0dp"
             android:text="@string/title_here"
             android:textSize="24sp"
             android:visibility="visible"
+            app:layout_constraintEnd_toStartOf="@+id/deleteEventBtn"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -64,6 +53,7 @@
             android:layout_margin="10dp"
             android:text="@string/event_start"
             android:textSize="18sp"
+            app:layout_constraintEnd_toStartOf="@+id/startDateView"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/descView" />
 
@@ -79,12 +69,14 @@
 
         <TextView
             android:id="@+id/descView"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginEnd="147dp"
+            android:layout_marginRight="147dp"
             android:hint="@string/description_here"
             android:textSize="18sp"
+            app:layout_constraintEnd_toStartOf="@+id/deleteEventBtn"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/titleView" />
 
@@ -93,7 +85,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_begin="109dp" />
+            app:layout_constraintGuide_end="200dp" />
+
+        <ImageView
+            android:id="@+id/deleteEventBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginRight="10dp"
+            android:contentDescription="@string/delete_btn_description"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@android:drawable/ic_menu_delete" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>
