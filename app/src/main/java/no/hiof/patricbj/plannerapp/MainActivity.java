@@ -3,6 +3,7 @@ package no.hiof.patricbj.plannerapp;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -43,6 +44,8 @@ public class MainActivity extends AppCompatActivity {
         TextView username = navigationHeader.findViewById(R.id.current_username);
         TextView email = navigationHeader.findViewById(R.id.current_email);
 
+        MenuItem signoutBtn = navigationMenu.findItem(R.id.signoutBtn);
+
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
         NavController navController = navHostFragment.getNavController();
 
@@ -73,6 +76,15 @@ public class MainActivity extends AppCompatActivity {
             email.setText(currentUser.getEmail());
         }
 
+        signoutBtn.setOnMenuItemClickListener(item -> {
+            if (item == signoutBtn) {
+                mAuth.signOut();
+            } else {
+                return false;
+            }
+            return true;
+        });
+
         addEventButton.setOnClickListener(view -> {
             Intent createEventIntent = new Intent(MainActivity.this, CreateEventActivity.class);
             startActivity(createEventIntent);
@@ -94,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(getBaseContext(), "Welcome, " + currentUser.getDisplayName(), Toast.LENGTH_LONG).show();
             }
         } else {
-            Toast.makeText(getBaseContext(), "Sign in cancelled", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getBaseContext(), "Sign in cancelled, you need to log in", Toast.LENGTH_LONG).show();
             // Sign in failed. If response is null the user canceled the
             // sign-in flow using the back button. Otherwise check
             // response.getError().getErrorCode() and handle the error.
