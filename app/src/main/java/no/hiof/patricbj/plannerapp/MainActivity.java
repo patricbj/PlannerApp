@@ -107,10 +107,6 @@ public class MainActivity extends AppCompatActivity {
             }
         } else {
             Toast.makeText(getBaseContext(), "Sign in cancelled, you need to log in", Toast.LENGTH_LONG).show();
-            // Sign in failed. If response is null the user canceled the
-            // sign-in flow using the back button. Otherwise check
-            // response.getError().getErrorCode() and handle the error.
-            // ...
         }
     }
 
@@ -118,6 +114,17 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         mAuth.addAuthStateListener(authStateListener);
+
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        View navigationHeader = navigationView.getHeaderView(0);
+        TextView username = navigationHeader.findViewById(R.id.current_username);
+        TextView email = navigationHeader.findViewById(R.id.current_email);
+
+        if (currentUser != null) {
+            username.setText(currentUser.getDisplayName());
+            email.setText(currentUser.getEmail());
+        }
     }
 
     @Override

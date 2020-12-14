@@ -1,13 +1,5 @@
 package no.hiof.patricbj.plannerapp;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
-import java.util.Objects;
-import java.text.SimpleDateFormat;
-
 import android.Manifest;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
@@ -16,21 +8,24 @@ import android.content.ContentValues;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.provider.CalendarContract;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
+import java.util.Objects;
 
 import pub.devrel.easypermissions.EasyPermissions;
 
@@ -205,7 +200,7 @@ public class CreateEventActivity extends AppCompatActivity {
                 }
 //
                 try {
-                    endTime.setTime(dateFormatDateTime.parse(fieldStartDate.getText() + " " + fieldStartTime.getText()));
+                    endTime.setTime(dateFormatDateTime.parse(fieldEndDate.getText() + " " + fieldEndTime.getText()));
                 } catch (ParseException ignored) {
                 }
 
@@ -250,6 +245,7 @@ public class CreateEventActivity extends AppCompatActivity {
             }
         });
     }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);

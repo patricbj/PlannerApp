@@ -59,4 +59,6 @@
     <string name="current_user_header">Currently logged in as:</string>
     <string name="user_email_placeholder">User email here!</string>
     <string name="delete_btn_description">delete button</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
